@@ -4,10 +4,6 @@ defmodule Mars.Instruction do
   """
   alias Mars.Robot
 
-  @max_x 9
-  @max_y 9
-
-
   @doc """
   Apply an instruction to robot state, returning a new robot state after the
   instruction have been performed. Does not do bounds checking.
