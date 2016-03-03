@@ -3,9 +3,9 @@ defmodule Mars.WorldTest do
 
   alias  Mars.Robot
   alias  Mars.World
-  import Mars.World, only: [check: 2]
+  import Mars.World
 
-  # Out of bounds
+  # check/2
 
   test "outside of north bounds" do
     world = %World{ max_x: 3, max_y: 8 }
@@ -35,5 +35,19 @@ defmodule Mars.WorldTest do
     world = %World{ max_x: 11, max_y: 3 }
     robot = %Robot{ x: 14, y: -1 }
     assert check(world, robot) == :lost
+  end
+
+  # Scent adding and checking
+
+  test "scents can be put and checked" do
+    world = %World{}
+    refute world |> scent?(%{x: 0, y: 0})
+
+    world = put_scent(world, %{x: 0, y: 0})
+    assert world |> scent?(%{x: 0, y: 0})
+
+    world = put_scent(world, %{x: 10, y: 500})
+    assert world |> scent?(%{x: 0, y: 0})
+    assert world |> scent?(%{x: 10, y: 500})
   end
 end

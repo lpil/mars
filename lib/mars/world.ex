@@ -23,4 +23,21 @@ defmodule Mars.World do
 
   def check(%__MODULE__{}, %Robot{}),
   do: :ok
+
+
+  @doc """
+  Checks whether a scent is present at a given coordinates
+  """
+  def scent?(%__MODULE__{} = world, %{x: x, y: y}) do
+    world.scents
+    |> MapSet.member?({x, y})
+  end
+
+  @doc """
+  Add a scent to the given world at the supplied coordinates.
+  """
+  def put_scent(%__MODULE__{} = world, %{x: x, y: y}) do
+    new_scents = world.scents |> MapSet.put({x, y})
+    %{ world | scents: new_scents }
+  end
 end
