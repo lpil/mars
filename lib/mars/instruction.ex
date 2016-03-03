@@ -9,38 +9,29 @@ defmodule Mars.Instruction do
 
 
   @doc """
-  Apply an instruction to robot state. Returns an :ok tuple with the new
-  state if successful, otherwise an error.
+  Apply an instruction to robot state, returning a new robot state after the
+  instruction have been performed. Does not do bounds checking.
 
       iex> %Mars.Robot{ x: 0, y: 0, direction: "N" }
       ...> |> Mars.Instruction.perform("L")
-      {:ok, %Mars.Robot{ x: 0, y: 0, direction: "W" }}
+      %Mars.Robot{ x: 0, y: 0, direction: "W" }
   """
   def perform(%Robot{} = robot, cmd) when cmd in ["L", "R"] do
     direction = rotate(robot.direction, cmd)
-    {:ok, %{ robot | direction: direction }}
+    %{ robot | direction: direction }
   end
-
-  def perform(%Robot{direction: "N", y: y}, "F") when y >= @max_y,
-  do: :lost
-  def perform(%Robot{direction: "S", y: y}, "F") when y <= 0,
-  do: :lost
-  def perform(%Robot{direction: "E", x: x}, "F") when x >= @max_x,
-  do: :lost
-  def perform(%Robot{direction: "W", x: x}, "F") when x <= 0,
-  do: :lost
 
   def perform(%Robot{direction: "N", y: y} = robot, "F") do
-    {:ok, %{ robot | y: y + 1 }}
+    %{ robot | y: y + 1 }
   end
   def perform(%Robot{direction: "S", y: y} = robot, "F") do
-    {:ok, %{ robot | y: y - 1 }}
+    %{ robot | y: y - 1 }
   end
   def perform(%Robot{direction: "E", x: x} = robot, "F") do
-    {:ok, %{ robot | x: x + 1 }}
+    %{ robot | x: x + 1 }
   end
   def perform(%Robot{direction: "W", x: x} = robot, "F") do
-    {:ok, %{ robot | x: x - 1 }}
+    %{ robot | x: x - 1 }
   end
 
 
