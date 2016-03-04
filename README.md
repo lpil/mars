@@ -1,6 +1,9 @@
 Mars
 ====
 
+[![Build Status][badge]](https://travis-ci.org/lpil/mars)
+[badge]: https://travis-ci.org/lpil/mars.svg?branch=master
+
 Trundling around Mars.
 
 ## Setup
