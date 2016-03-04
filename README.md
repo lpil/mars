@@ -14,6 +14,6 @@ mix dogma
 # Run the test watcher
 mix test.watch
 
-# Run the app
-???
+# Explore a tiny planet
+mix run scripts/main.exs
 ```
