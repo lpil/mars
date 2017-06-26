@@ -1,31 +1,21 @@
 Mars
 ====
 
-[![Build Status][badge]](https://travis-ci.org/lpil/mars)
+## Input
 
-[badge]: https://travis-ci.org/lpil/mars.svg?branch=master
+- The first line of input is the upper-right coordinates of the rectangular
+  world, the lower-left coordinates are assumed to be 0, 0.
+- The remaining input consists of a sequence of robot positions and
+  instructions (two lines per robot).
+- A position consists of two integers specifying the initial coordinates of
+  the robot and an orientation (N, S, E, W), all separated by whitespace on
+  one line. A robot instruction is a string of the letters “L”, “R”, and “F”
+  on one line.
 
-Trundling around Mars.
 
-## Setup
+## Output
 
-Install [Elixir][elixir-install]
-
-[elixir-install]: http://elixir-lang.org/install.html
-
-```sh
-# Get the deps
-mix deps.get
-
-# Run the tests
-mix test
-
-# Run the linter
-mix dogma
-
-# Run the test watcher
-mix test.watch
-
-# Explore a tiny planet
-mix run scripts/main.exs
-```
+- For each robot position/instruction in the input, the output should indicate
+  the final grid position and orientation of the robot.
+- If a robot falls off the edge of the grid the word “LOST” should be printed
+  after the position and orientation.

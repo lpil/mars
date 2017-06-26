@@ -1,0 +1,24 @@
+name: mars
+version: 1.0.0
+
+dependencies:
+  - base
+
+library:
+  source-dirs: src
+  dependencies:
+  # - foo       # List here the packages you
+  # - bar       # want to use in your solution.
+
+executables:
+  mars:
+    main: Main.hs
+    source-dirs: app
+
+tests:
+  test:
+    main: Spec.hs
+    source-dirs: test
+    dependencies:
+      - mars
+      - hspec
