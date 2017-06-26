@@ -31,18 +31,18 @@ parse :: String -> Maybe [InstructionSet]
 parse = sequence . fmap parseChunk . chunksOf 2 . lines
 
 parseChunk :: [String] -> Maybe InstructionSet
-parseChunk [line1, line2] =
-  case (parseLine1 line1, parseLine2 line2) of
-    (Just (p, d), Just s) ->
-      Just InstructionSet {startPosition = p, startDirection = d, steps = s}
-    _ -> Nothing
+parseChunk [line1, line2] = do
+  (p, d) <- parseLine1 line1
+  s <- parseLine2 line2
+  Just InstructionSet {startPosition = p, startDirection = d, steps = s}
 parseChunk _ = Nothing
 
 parseLine1 :: String -> Maybe ((Integer, Integer), Bearing)
-parseLine1 [x, ' ', y, ' ', d] =
-  case (parsePos x, parsePos y, parseDir d) of
-    (Just x', Just y', Just d') -> Just ((x', y'), d')
-    _ -> Nothing
+parseLine1 [x, ' ', y, ' ', d] = do
+  x' <- parsePos x
+  y' <- parsePos y
+  d' <- parseDir d
+  Just ((x', y'), d')
 parseLine1 _ = Nothing
 
 parseDir :: Char -> Maybe Bearing
