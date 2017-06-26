@@ -23,7 +23,7 @@ data Instruction
 
 data InstructionSet = InstructionSet
   { startPosition :: (Integer, Integer)
-  , startDirection :: Bearing
+  , startBearing :: Bearing
   , steps :: [Instruction]
   } deriving (Eq, Show)
 
@@ -31,20 +31,20 @@ parse :: String -> Maybe [InstructionSet]
 parse = sequence . fmap parseChunk . chunksOf 2 . lines
 
 parseChunk :: [String] -> Maybe InstructionSet
-parseChunk [[x, ' ', y, ' ', d], instructions] = do
-  x' <- parsePos x
-  y' <- parsePos y
-  d' <- parseDir d
+parseChunk [[x, ' ', y, ' ', b], instructions] = do
+  x' <- parseInt x
+  y' <- parseInt y
+  b' <- parseBearing b
   s <- sequence $ fmap parseInstruction instructions
-  Just InstructionSet {startPosition = (x', y'), startDirection = d', steps = s}
+  Just InstructionSet {startPosition = (x', y'), startBearing = b', steps = s}
 parseChunk _ = Nothing
 
-parseDir :: Char -> Maybe Bearing
-parseDir 'N' = Just North
-parseDir 'E' = Just East
-parseDir 'S' = Just South
-parseDir 'W' = Just West
-parseDir _ = Nothing
+parseBearing :: Char -> Maybe Bearing
+parseBearing 'N' = Just North
+parseBearing 'E' = Just East
+parseBearing 'S' = Just South
+parseBearing 'W' = Just West
+parseBearing _ = Nothing
 
 parseInstruction :: Char -> Maybe Instruction
 parseInstruction 'F' = Just Advance
@@ -52,7 +52,7 @@ parseInstruction 'L' = Just TurnLeft
 parseInstruction 'R' = Just TurnRight
 parseInstruction _ = Nothing
 
-parsePos :: Char -> Maybe Integer
-parsePos c
+parseInt :: Char -> Maybe Integer
+parseInt c
   | isDigit c = Just $ read [c]
   | otherwise = Nothing

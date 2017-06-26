@@ -26,7 +26,7 @@ spec =
         Just
           [ InstructionSet
             { startPosition = (2, 3)
-            , startDirection = North
+            , startBearing = North
             , steps = [TurnLeft, TurnRight, Advance]
             }
           ]
@@ -37,7 +37,7 @@ spec =
         Just
           [ InstructionSet
             { startPosition = (1, 1)
-            , startDirection = East
+            , startBearing = East
             , steps =
                 [ TurnRight
                 , Advance
@@ -51,7 +51,7 @@ spec =
             }
           , InstructionSet
             { startPosition = (3, 2)
-            , startDirection = North
+            , startBearing = North
             , steps =
                 [ Advance
                 , TurnRight
