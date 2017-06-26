@@ -1,24 +1,11 @@
 module Data.Robot
-  ( Bearing(..)
-  , Instruction(..)
-  , bearing
+  ( bearing
   , coordinates
   , mkRobot
   , execute
   ) where
 
-data Bearing
-  = North
-  | East
-  | South
-  | West
-  deriving (Eq, Show)
-
-data Instruction
-  = Advance
-  | TurnLeft
-  | TurnRight
-  deriving (Eq, Show)
+import Data.Instruction
 
 data Robot =
   Robot Bearing

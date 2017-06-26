@@ -3,6 +3,7 @@ module Data.RobotSpec where
 import Test.Hspec (Spec, describe, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
+import Data.Instruction
 import Data.Robot
 
 main :: IO ()
