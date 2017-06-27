@@ -32,7 +32,7 @@ spec =
           ]
     it "parses multiple results" $ do
       let result =
-            parse (unlines ["1 1 E", "RFRFRFRF", "3 2 N", "FRRFLLFFRRFLL"])
+            parse (unlines ["1 1 E", "RFRFRFRF", "", "3 2 N", "FRRFLLFFRRFLL"])
       result `shouldBe`
         Just
           [ InstructionSet

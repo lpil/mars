@@ -28,7 +28,7 @@ data InstructionSet = InstructionSet
   } deriving (Eq, Show)
 
 parse :: String -> Maybe [InstructionSet]
-parse = sequence . fmap parseChunk . chunksOf 2 . lines
+parse = sequence . fmap parseChunk . chunksOf 2 . filter (/= "") . lines
 
 parseChunk :: [String] -> Maybe InstructionSet
 parseChunk [[x, ' ', y, ' ', b], instructions] = do
