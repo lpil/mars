@@ -3,6 +3,7 @@ module Data.Planet
   , new
   , Data.Planet.execute
   , robot
+  , putRobot
   ) where
 
 import Data.Instruction (Instruction)
@@ -18,29 +19,32 @@ data Planet = Planet
   , scents :: Scents
   } deriving (Show, Eq)
 
-{- Construct a new Planet with the given size limits, and initial Robot.
+{-| Construct a new Planet with the given size limits, and initial Robot.
 -}
 new :: (Integer, Integer) -> Robot -> Planet
 new (x, y) robot =
   Planet {maxX = x, maxY = y, robot = robot, scents = Set.empty}
 
-{- Execute a single Instruction on the robot, checking if the robot becomes
-   out of bounds. A scent is recorded if a robot is lost.
+{-| Execute a single Instruction on the robot, checking if the robot becomes
+    out of bounds. A scent is recorded if a robot is lost.
 -}
 execute :: Instruction -> Planet -> Either Planet Planet
 execute instruction p = checkBounds p . Robot.execute instruction $ robot p
   where
-    putRobot robot planet = planet {robot = robot}
     checkBounds planet robot
-      | inBounds planet = Right $ putRobot robot planet
-      -- TODO: Check sent
+      | inBounds planet robot = Right $ putRobot robot planet
+      | hasScent (Robot.coordinates robot) planet = Right planet
       | otherwise = Left . addScent $ putRobot robot planet
+    hasScent coordinates = Set.member coordinates . scents
     addScent planet@Planet {robot = robot, scents = scents} =
       planet {scents = Set.insert (Robot.coordinates robot) scents}
+    inBounds Planet {maxX = x, maxY = y} robot =
+      not $ rx < 0 || ry < 0 || rx > x || ry > y
+      where
+        rx = Robot.x robot
+        ry = Robot.y robot
 
-inBounds :: Planet -> Bool
-inBounds Planet {robot = robot, maxX = x, maxY = y} =
-  not $ rx < 0 || ry < 0 || rx > x || ry > y
-  where
-    rx = Robot.x robot
-    ry = Robot.y robot
+{-| Replace a Planet's Robot.
+-}
+putRobot :: Robot -> Planet -> Planet
+putRobot robot planet = planet {robot = robot}
