@@ -8,6 +8,7 @@ library:
   source-dirs: src
   dependencies:
   - split
+  - containers
 
 executables:
   mars:

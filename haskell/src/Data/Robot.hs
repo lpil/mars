@@ -1,8 +1,11 @@
 module Data.Robot
-  ( bearing
+  ( Robot
+  , bearing
   , coordinates
   , mkRobot
   , execute
+  , x
+  , y
   ) where
 
 import Data.Instruction
@@ -10,12 +13,19 @@ import Data.Instruction
 data Robot =
   Robot Bearing
         (Integer, Integer)
+  deriving (Show, Eq)
 
 bearing :: Robot -> Bearing
 bearing (Robot bearing _) = bearing
 
 coordinates :: Robot -> (Integer, Integer)
 coordinates (Robot _ coordinates) = coordinates
+
+x :: Robot -> Integer
+x (Robot _ (x', _)) = x'
+
+y :: Robot -> Integer
+y (Robot _ (_, y')) = y'
 
 mkRobot :: Bearing -> (Integer, Integer) -> Robot
 mkRobot = Robot

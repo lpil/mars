@@ -13,8 +13,10 @@ library
   build-depends:
       base
     , split
+    , containers
   exposed-modules:
       Data.Instruction
+      Data.Planet
       Data.Robot
   default-language: Haskell2010
 
@@ -37,5 +39,6 @@ test-suite test
     , hspec
   other-modules:
       Data.InstructionSpec
+      Data.PlanetSpec
       Data.RobotSpec
   default-language: Haskell2010
