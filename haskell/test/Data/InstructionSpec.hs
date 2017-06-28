@@ -10,18 +10,18 @@ main = hspecWith defaultConfig {configFastFail = True} spec
 
 spec :: Spec
 spec =
-  describe "parse" $ do
+  describe "parseInstructions" $ do
     it "does not parse invalid line 1 data" $ do
-      let result = parse (unlines ["2 z N", "LRF"])
+      let result = parseInstructions (unlines ["2 z N", "LRF"])
       result `shouldBe` Nothing
     it "does not parse invalid line 2 data" $ do
-      let result = parse (unlines ["2 0 N", "Hello LRF"])
+      let result = parseInstructions (unlines ["2 0 N", "Hello LRF"])
       result `shouldBe` Nothing
     it "does not parse unevent data" $ do
-      let result = parse (unlines ["2 3 N"])
+      let result = parseInstructions (unlines ["2 3 N"])
       result `shouldBe` Nothing
     it "parses a single result" $ do
-      let result = parse (unlines ["2 3 N", "LRF"])
+      let result = parseInstructions (unlines ["2 3 N", "LRF"])
       result `shouldBe`
         Just
           [ InstructionSet
@@ -32,7 +32,8 @@ spec =
           ]
     it "parses multiple results" $ do
       let result =
-            parse (unlines ["1 1 E", "RFRFRFRF", "", "3 2 N", "FRRFLLFFRRFLL"])
+            parseInstructions
+              (unlines ["1 1 E", "RFRFRFRF", "", "3 2 N", "FRRFLLFFRRFLL"])
       result `shouldBe`
         Just
           [ InstructionSet

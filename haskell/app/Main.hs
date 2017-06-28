@@ -1,8 +1,7 @@
 module Main where
 
+import Data.Char (toUpper)
+import System.IO.Strict as Strict
+
 main :: IO ()
-main = putStrLn "Hello, Mars!"
--- step :: [Instruction] -> World -> Either World World
--- step [] world = Right world
--- step (instruction:rest) world =
---   execute instruction >>= step rest
+main = Strict.getContents >>= putStr . map toUpper

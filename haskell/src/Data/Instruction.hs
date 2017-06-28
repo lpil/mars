@@ -2,7 +2,7 @@ module Data.Instruction
   ( Instruction(..)
   , InstructionSet(..)
   , Bearing(..)
-  , parse
+  , parseInstructions
   ) where
 
 import Data.Char (isDigit)
@@ -27,8 +27,9 @@ data InstructionSet = InstructionSet
   , steps :: [Instruction]
   } deriving (Eq, Show)
 
-parse :: String -> Maybe [InstructionSet]
-parse = sequence . fmap parseChunk . chunksOf 2 . filter (/= "") . lines
+parseInstructions :: String -> Maybe [InstructionSet]
+parseInstructions =
+  sequence . fmap parseChunk . chunksOf 2 . filter (/= "") . lines
 
 parseChunk :: [String] -> Maybe InstructionSet
 parseChunk [[x, ' ', y, ' ', b], instructions] = do
