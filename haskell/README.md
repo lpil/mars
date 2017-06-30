@@ -7,8 +7,8 @@ Bleep bloop, pure functional rovers.
 stack test
 
 # Build
-stack build
+stack build --copy-bins
 
 # Run
-cat priv/instructions.txt | stack exec mars # TODO
+cat priv/instructions.txt | mars
 ```
