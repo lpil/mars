@@ -35,9 +35,9 @@ execute instruction p = checkBounds p . Robot.execute instruction $ robot p
     checkBounds planet robot
       | inBounds planet robot = Right $ putRobot robot planet
       | hasScent (Robot.coordinates robot) planet = Right planet
-      | otherwise = Left . addScent $ putRobot robot planet
+      | otherwise = Left $ addScent robot planet
     hasScent coordinates = Set.member coordinates . scents
-    addScent planet@Planet {robot, scents} =
+    addScent robot planet@Planet {scents} =
       planet {scents = Set.insert (Robot.coordinates robot) scents}
     inBounds Planet {maxX, maxY} robot =
       not $ rx < 0 || ry < 0 || rx > maxX || ry > maxY

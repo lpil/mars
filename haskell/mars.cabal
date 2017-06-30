@@ -16,6 +16,7 @@ library
     , containers
   exposed-modules:
       Control.Exploration
+      Data.Either.Extra
       Data.Instruction
       Data.Planet
       Data.Robot

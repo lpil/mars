@@ -2,6 +2,7 @@ module Data.Instruction
   ( Instruction(..)
   , InstructionSet(..)
   , Bearing(..)
+  , parse
   , parseInstructions
   ) where
 
@@ -26,6 +27,13 @@ data InstructionSet = InstructionSet
   , startBearing :: Bearing
   , steps :: [Instruction]
   } deriving (Eq, Show)
+
+parse :: String -> Maybe ((Integer, Integer), [InstructionSet])
+parse (x:' ':y:rest) = do
+  x' <- parseInt x
+  y' <- parseInt y
+  sets <- parseInstructions rest
+  Just ((x', y'), sets)
 
 parseInstructions :: String -> Maybe [InstructionSet]
 parseInstructions =
