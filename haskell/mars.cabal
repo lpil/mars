@@ -15,6 +15,7 @@ library
     , split
     , containers
   exposed-modules:
+      Control.Exploration
       Data.Instruction
       Data.Planet
       Data.Robot
@@ -39,6 +40,7 @@ test-suite test
     , mars
     , hspec
   other-modules:
+      Control.ExplorationSpec
       Data.InstructionSpec
       Data.PlanetSpec
       Data.RobotSpec

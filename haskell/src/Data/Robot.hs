@@ -1,9 +1,9 @@
 module Data.Robot
   ( Robot
-  , bearing
   , coordinates
-  , mkRobot
+  , bearing
   , execute
+  , new
   , x
   , y
   ) where
@@ -27,8 +27,8 @@ x (Robot _ (x', _)) = x'
 y :: Robot -> Integer
 y (Robot _ (_, y')) = y'
 
-mkRobot :: Bearing -> (Integer, Integer) -> Robot
-mkRobot = Robot
+new :: Bearing -> (Integer, Integer) -> Robot
+new = Robot
 
 execute :: Instruction -> Robot -> Robot
 execute TurnRight robot = turnRight robot

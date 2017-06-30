@@ -11,14 +11,14 @@ main = hspecWith defaultConfig {configFastFail = True} spec
 
 spec :: Spec
 spec = do
-  let testRobot dir = mkRobot dir (0, 0)
-  describe "mkRobot" $ do
+  let testRobot dir = new dir (0, 0)
+  describe "new" $ do
     it "A robot is created with a position and a direction" $ do
-      let robot = mkRobot North (0, 0)
+      let robot = new North (0, 0)
       coordinates robot `shouldBe` (0, 0)
       bearing robot `shouldBe` North
     it "Negative positions are allowed" $ do
-      let robot = mkRobot South (-1, -1)
+      let robot = new South (-1, -1)
       coordinates robot `shouldBe` (-1, -1)
       bearing robot `shouldBe` South
   describe "execute" $ do

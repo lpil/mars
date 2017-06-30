@@ -1,8 +1,8 @@
-{-# LANGUAGE RecordPuns #-}
+{-# LANGUAGE NamedFieldPuns #-}
 
 module Data.Planet
   ( Planet
-  , new
+  , Data.Planet.new
   , Data.Planet.execute
   , robot
   , putRobot
