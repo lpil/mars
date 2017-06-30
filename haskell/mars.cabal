@@ -28,6 +28,7 @@ executable mars
       app
   build-depends:
       base
+    , mars
     , strict
   default-language: Haskell2010
 

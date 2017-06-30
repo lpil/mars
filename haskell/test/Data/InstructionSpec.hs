@@ -10,7 +10,9 @@ main = hspecWith defaultConfig {configFastFail = True} spec
 
 spec :: Spec
 spec =
-  describe "parseInstructions" $ do
+  describe "parse" $
+  it "handle invalid input" $
+  parse "" `shouldBe` Nothing describe "parseInstructions" $ do
     it "does not parse invalid line 1 data" $ do
       let result = parseInstructions (unlines ["2 z N", "LRF"])
       result `shouldBe` Nothing

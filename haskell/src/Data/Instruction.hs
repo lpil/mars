@@ -34,6 +34,7 @@ parse (x:' ':y:rest) = do
   y' <- parseInt y
   sets <- parseInstructions rest
   Just ((x', y'), sets)
+parse _ = Nothing
 
 parseInstructions :: String -> Maybe [InstructionSet]
 parseInstructions =

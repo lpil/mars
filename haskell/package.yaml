@@ -15,6 +15,7 @@ executables:
     main: Main.hs
     source-dirs: app
     dependencies:
+      - mars
       - strict
 
 tests:
