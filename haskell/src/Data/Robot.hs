@@ -1,6 +1,5 @@
 module Data.Robot
   ( Robot
-  , coordinates
   , bearing
   , execute
   , new
@@ -9,25 +8,26 @@ module Data.Robot
   ) where
 
 import Data.Instruction
+import Data.Position
 
 data Robot =
   Robot Bearing
-        (Integer, Integer)
+        Position
   deriving (Show, Eq)
+
+instance Positional Robot where
+  position (Robot _ pos) = pos
 
 bearing :: Robot -> Bearing
 bearing (Robot bearing _) = bearing
 
-coordinates :: Robot -> (Integer, Integer)
-coordinates (Robot _ coordinates) = coordinates
+x :: Robot -> Int
+x (Robot _ (Position (x', _))) = x'
 
-x :: Robot -> Integer
-x (Robot _ (x', _)) = x'
+y :: Robot -> Int
+y (Robot _ (Position (_, y'))) = y'
 
-y :: Robot -> Integer
-y (Robot _ (_, y')) = y'
-
-new :: Bearing -> (Integer, Integer) -> Robot
+new :: Bearing -> Position -> Robot
 new = Robot
 
 execute :: Instruction -> Robot -> Robot
@@ -36,10 +36,10 @@ execute TurnLeft robot = turnLeft robot
 execute Advance robot = advance robot
 
 advance :: Robot -> Robot
-advance (Robot North (x, y)) = Robot North (x, y + 1)
-advance (Robot East (x, y)) = Robot East (x + 1, y)
-advance (Robot South (x, y)) = Robot South (x, y - 1)
-advance (Robot West (x, y)) = Robot West (x - 1, y)
+advance (Robot North (Position (x, y))) = Robot North $ Position (x, y + 1)
+advance (Robot East (Position (x, y))) = Robot East $ Position (x + 1, y)
+advance (Robot South (Position (x, y))) = Robot South $ Position (x, y - 1)
+advance (Robot West (Position (x, y))) = Robot West $ Position (x - 1, y)
 
 turnLeft :: Robot -> Robot
 turnLeft (Robot North c) = Robot West c

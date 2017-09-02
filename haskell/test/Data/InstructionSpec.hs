@@ -4,15 +4,15 @@ import Test.Hspec (Spec, describe, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import Data.Instruction
+import Data.Position
 
 main :: IO ()
 main = hspecWith defaultConfig {configFastFail = True} spec
 
 spec :: Spec
-spec =
-  describe "parse" $
-  it "handle invalid input" $
-  parse "" `shouldBe` Nothing describe "parseInstructions" $ do
+spec = do
+  describe "parse" $ do it "handle invalid input" $ parse "" `shouldBe` Nothing
+  describe "parseInstructions" $ do
     it "does not parse invalid line 1 data" $ do
       let result = parseInstructions (unlines ["2 z N", "LRF"])
       result `shouldBe` Nothing
@@ -27,7 +27,7 @@ spec =
       result `shouldBe`
         Just
           [ InstructionSet
-            { startPosition = (2, 3)
+            { startPosition = Position (2, 3)
             , startBearing = North
             , steps = [TurnLeft, TurnRight, Advance]
             }
@@ -39,7 +39,7 @@ spec =
       result `shouldBe`
         Just
           [ InstructionSet
-            { startPosition = (1, 1)
+            { startPosition = Position (1, 1)
             , startBearing = East
             , steps =
                 [ TurnRight
@@ -53,7 +53,7 @@ spec =
                 ]
             }
           , InstructionSet
-            { startPosition = (3, 2)
+            { startPosition = Position (3, 2)
             , startBearing = North
             , steps =
                 [ Advance

@@ -8,42 +8,59 @@ module Data.Planet
   , putRobot
   ) where
 
+import qualified Data.Instruction
 import Data.Instruction (Instruction)
-import Data.Robot as Robot
-import Data.Set as Set
+import Data.Position (Position(..), Positional, position)
+import qualified Data.Robot as Robot
+import Data.Robot (Robot)
+import qualified Data.Set as Set
+import Data.Set (Set)
 
-type Scents = Set (Integer, Integer)
+type Scents = Set Position
 
 data Planet = Planet
-  { maxX :: Integer
-  , maxY :: Integer
+  { maxX :: Int
+  , maxY :: Int
   , robot :: Robot
   , scents :: Scents
   } deriving (Show, Eq)
 
 {-| Construct a new Planet with the given size limits, and initial Robot.
 -}
-new :: (Integer, Integer) -> Robot -> Planet
-new (maxX, maxY) robot = Planet {maxX, maxY, robot, scents = Set.empty}
+new :: Position -> Robot -> Planet
+new (Position (maxX, maxY)) robot =
+  Planet {maxX, maxY, robot, scents = Set.empty}
 
 {-| Execute a single Instruction on the robot, checking if the robot becomes
     out of bounds. A scent is recorded if a robot is lost.
 -}
 execute :: Instruction -> Planet -> Either Planet Planet
-execute instruction p = checkBounds p . Robot.execute instruction $ robot p
+execute instruction p = nextPlanet p . Robot.execute instruction $ robot p
   where
-    checkBounds planet robot
-      | inBounds planet robot = Right $ putRobot robot planet
-      | hasScent (Robot.coordinates robot) planet = Right planet
+    nextPlanet planet robot
+      | inBounds robot planet = Right $ putRobot robot planet
+      | hasScent (position robot) planet = Right planet
       | otherwise = Left $ addScent robot planet
-    hasScent coordinates = Set.member coordinates . scents
-    addScent robot planet@Planet {scents} =
-      planet {scents = Set.insert (Robot.coordinates robot) scents}
-    inBounds Planet {maxX, maxY} robot =
-      not $ rx < 0 || ry < 0 || rx > maxX || ry > maxY
-      where
-        rx = Robot.x robot
-        ry = Robot.y robot
+
+{-| Check whether a position is in bounds for a given planet
+-}
+inBounds :: Positional p => p -> Planet -> Bool
+inBounds p Planet {maxX, maxY} =
+  let (Position (px, py)) = position p
+  in not $ px < 0 || py < 0 || px > maxX || py > maxY
+
+{-| Check whether a Planet has a sent at a given position.
+-}
+hasScent :: Positional p => p -> Planet -> Bool
+hasScent p = Set.member (position p) . scents
+
+{-| Add a scene at a given position.
+-}
+addScent :: Positional p => p -> Planet -> Planet
+addScent robot planet =
+  let (Planet {scents}) = planet
+      newScents = Set.insert (position robot) scents
+  in planet {scents = newScents}
 
 {-| Replace a Planet's Robot.
 -}

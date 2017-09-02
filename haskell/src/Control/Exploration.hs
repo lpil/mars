@@ -10,10 +10,11 @@ import Data.Instruction
 import Data.List (scanl)
 import Data.Planet as Planet
        (Planet, execute, new, putRobot, robot)
+import Data.Position (Position)
 import Data.Robot as Robot (new)
 import Data.Robot (Robot)
 
-type Bounds = (Integer, Integer)
+type Bounds = Position
 
 {-| Have a Robot execute a series of instructions on a Planet
 -}
@@ -27,10 +28,10 @@ runInstructions (instruction:rest) planet =
 -}
 runInstructionSets :: Bounds -> [InstructionSet] -> [Either Robot Robot]
 runInstructionSets _ [] = []
-runInstructionSets coordinates (set@InstructionSet {steps}:rest) =
+runInstructionSets bounds (set@InstructionSet {steps}:rest) =
   mapBoth Planet.robot <$> scanl go (Right $ newPlanet set) rest
   where
-    newPlanet set = Planet.new coordinates $ newRobot set
+    newPlanet set = Planet.new bounds $ newRobot set
     newRobot InstructionSet {startBearing, startPosition} =
       Robot.new startBearing startPosition
     go planet set@InstructionSet {steps} =
